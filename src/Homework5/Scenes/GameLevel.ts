@@ -422,20 +422,18 @@ export default class GameLevel extends Scene {
         }
         if ((<PlayerController>player.ai).suitColor != (<BalloonController>balloon._ai).color) {
             this.incPlayerLife(-1);
-        } else{
-            if((<BalloonController>balloon._ai).color == HW5_Color.RED){
-                this.system.changeColor(Color.RED);
-            }
-            else if((<BalloonController>balloon._ai).color == HW5_Color.BLUE){
-                this.system.changeColor(Color.BLUE);
-            }
-            else{   // Green Balloon popped
-                this.system.changeColor(Color.GREEN);
-            }
+        } 
+        if((<BalloonController>balloon._ai).color == HW5_Color.RED){
+            this.system.changeColor(Color.RED);
         }
-
+        else if((<BalloonController>balloon._ai).color == HW5_Color.BLUE){
+            this.system.changeColor(Color.BLUE);
+        }
+        else{   // Green Balloon popped
+            this.system.changeColor(Color.GREEN);
+        }
         this.emitter.fireEvent(HW5_Events.BALLOON_POPPED, {owner: balloon.id});
-        this.emitter.fireEvent(GameEventType.PLAY_SOUND)
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "balloon_pop", loop:false, holdReference: false});
     }
 
     /**

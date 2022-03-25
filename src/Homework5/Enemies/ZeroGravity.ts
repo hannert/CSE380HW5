@@ -1,4 +1,3 @@
-import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import { HW5_Events } from "../hw5_enums";
@@ -21,10 +20,40 @@ import BalloonState from "./BalloonState";
  * are fired to get the player position
  */
 export default class ZeroGravity extends BalloonState {
+
+	isWithinDistance : boolean = false;
+
 	onEnter(): void {
+        this.gravity = this.parent.gravity;
+		this.isWithinDistance = false;
+		(<AnimatedSprite>this.owner).animation.play("IDLE", true);
+	}
+	handleInput(event: GameEvent): void {
+		super.handleInput(event);
+		if(event.type == HW5_Events.PLAYER_MOVE){
+			let position = event.data.get("position");
+			if(Math.sqrt((Math.pow((this.owner.position.x - position.x), 2) + Math.pow((this.owner.position.y - position.y), 2)) ) <= 320){
+				this.isWithinDistance = true;
+			}
+			else
+				this.isWithinDistance = false;
+		}
+
+	}
+	update(deltaT: number): void {
+		super.update(deltaT);
+		console.log(this.isWithinDistance);
+
+		if(this.isWithinDistance === true)
+			this.parent.velocity.x = this.parent.direction.x * this.parent.speed * 2;
+		else						
+			this.parent.velocity.x = this.parent.direction.x * this.parent.speed;
+		this.parent.velocity.y = 0;
+		this.owner.move(this.parent.velocity.scaled(deltaT));
 	}
 
 	onExit(): Record<string, any> {
+		(<AnimatedSprite>this.owner).animation.stop();
 		return {};
 	}
 }

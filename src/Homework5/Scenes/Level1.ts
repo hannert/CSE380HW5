@@ -19,6 +19,8 @@ export default class Level1 extends GameLevel {
         this.load.audio("jump", "hw5_assets/sounds/jump.wav");
         this.load.audio("switch", "hw5_assets/sounds/switch.wav");
         this.load.audio("player_death", "hw5_assets/sounds/player_death.wav");
+        this.load.audio("balloon_pop", "hw5_assets/sounds/balloonPop.wav");
+
         // HOMEWORK 5 - TODO
         // You'll want to change this to your level music   
         this.load.audio("level_music", "hw5_assets/music/beat.mp3");
@@ -37,6 +39,15 @@ export default class Level1 extends GameLevel {
      * not a lot of load time for such a small project).
      */
     unloadScene(){
+        this.load.keepAudio("level_music");
+        this.load.keepAudio("balloon_pop");
+        this.load.keepAudio("player_death");
+        this.load.keepAudio("jump");
+        this.load.keepAudio("switch");
+        this.load.keepSpritesheet("blue");
+        this.load.keepSpritesheet("red");
+        this.load.keepSpritesheet("player");
+
         // Keep resources - this is up to you
     }
 

@@ -21,15 +21,15 @@ export default class HW5_ParticleSystem extends ParticleSystem {
     setParticleAnimation(particle: Particle) {
         super.setParticleAnimation(particle);
         particle.tweens.add("active", {
-            startDelay: 0,
+            startDelay: particle.velY,
             duration: this.lifetime,
             effects: [
-                // {
-                //     property: "velY",   
-                //     start: 0,
-                //     end: 400,
-                //     ease: EaseFunctionType.IN_OUT_QUAD
-                // },
+                {
+                    property: "velY",   
+                    start: particle.velY,
+                    end: Math.abs(particle.velY) * this.particleMass * 9.81,
+                    ease: EaseFunctionType.IN_OUT_QUAD
+                },
                 {
                     property: "alpha",
                     start: 1,

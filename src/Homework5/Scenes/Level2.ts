@@ -1,5 +1,4 @@
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import Debug from "../../Wolfie2D/Debug/Debug";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import { HW5_Color } from "../hw5_color";
 import GameLevel from "./GameLevel";
@@ -13,15 +12,8 @@ export default class Level2 extends GameLevel {
      */
     loadScene(): void {
         // Load resources
-        this.load.tilemap("level2", "hw5_assets/tilemaps/level1.json");
-        this.load.spritesheet("player", "hw5_assets/spritesheets/spike.json");
-        this.load.spritesheet("green", "hw5_assets/spritesheets/greenBalloon.json");
-        this.load.spritesheet("red", "hw5_assets/spritesheets/redBalloon.json");
-        this.load.spritesheet("blue", "hw5_assets/spritesheets/blueBalloon.json");
-        this.load.audio("jump", "hw5_assets/sounds/jump.wav");
-        this.load.audio("switch", "hw5_assets/sounds/switch.wav");
-        this.load.audio("player_death", "hw5_assets/sounds/player_death.wav");
-        this.load.audio("level_music", "hw5_assets/music/beat.mp3");
+        this.load.tilemap("level2", "hw5_assets/tilemaps/level2.json");
+        this.load.spritesheet("green", "hw5_assets/spritesheets/greenBalloon.json");    
     }
 
     startScene(): void {

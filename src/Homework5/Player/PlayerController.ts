@@ -132,6 +132,14 @@ export default class PlayerController extends StateMachineAI {
     update(deltaT: number): void {
 		super.update(deltaT);
 
+        // 8 for off
+        let pos = this.owner.position.clone();
+        pos.y = pos.y + 32;
+        if(this.tilemap.getTileAtWorldPosition(pos) == 8){
+            this.tilemap.setTileAtRowCol(this.tilemap.getColRowAt(pos), 9);
+            this.emitter.fireEvent(HW5_Events.PLAYER_HIT_SWITCH);
+        }
+
 		if(this.currentState instanceof Jump){
 			Debug.log("playerstate", "Player State: Jump");
 		} else if (this.currentState instanceof Walk){
