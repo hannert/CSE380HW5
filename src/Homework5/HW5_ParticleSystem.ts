@@ -1,7 +1,6 @@
 import Particle from "../Wolfie2D/Nodes/Graphics/Particle";
 import ParticleSystem from "../Wolfie2D/Rendering/Animations/ParticleSystem";
 import { EaseFunctionType } from "../Wolfie2D/Utils/EaseFunctions";
-import RandUtils from "../Wolfie2D/Utils/RandUtils";
 
 // HOMEWORK 5 - TODO
 /**
@@ -21,5 +20,23 @@ export default class HW5_ParticleSystem extends ParticleSystem {
 
     setParticleAnimation(particle: Particle) {
         super.setParticleAnimation(particle);
+        particle.tweens.add("active", {
+            startDelay: 0,
+            duration: this.lifetime,
+            effects: [
+                // {
+                //     property: "velY",   
+                //     start: 0,
+                //     end: 400,
+                //     ease: EaseFunctionType.IN_OUT_QUAD
+                // },
+                {
+                    property: "alpha",
+                    start: 1,
+                    end: 0,
+                    ease: EaseFunctionType.IN_OUT_QUAD
+                } 
+            ]
+        });
     }
 }

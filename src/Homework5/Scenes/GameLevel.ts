@@ -1,11 +1,9 @@
 import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import Debug from "../../Wolfie2D/Debug/Debug";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import Input from "../../Wolfie2D/Input/Input";
 import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
 import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
-import Point from "../../Wolfie2D/Nodes/Graphics/Point";
 import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
@@ -20,6 +18,7 @@ import { HW5_Events } from "../hw5_enums";
 import HW5_ParticleSystem from "../HW5_ParticleSystem";
 import PlayerController from "../Player/PlayerController";
 import MainMenu from "./MainMenu";
+
 
 // HOMEWORK 5 - TODO
 /**
@@ -386,6 +385,7 @@ export default class GameLevel extends Scene {
         balloon.addPhysics();
         balloon.addAI(BalloonController, aiOptions);
         balloon.setGroup("balloon");
+        balloon.setTrigger("player", HW5_Events.PLAYER_HIT_BALLOON, null);
 
     }
 
@@ -416,6 +416,26 @@ export default class GameLevel extends Scene {
      * 
      */
     protected handlePlayerBalloonCollision(player: AnimatedSprite, balloon: AnimatedSprite) {
+        console.log("balloon hit\n");
+        if(player == null || balloon == null){
+            return;
+        }
+        if ((<PlayerController>player.ai).suitColor != (<BalloonController>balloon._ai).color) {
+            this.incPlayerLife(-1);
+        } else{
+            if((<BalloonController>balloon._ai).color == HW5_Color.RED){
+                this.system.changeColor(Color.RED);
+            }
+            else if((<BalloonController>balloon._ai).color == HW5_Color.BLUE){
+                this.system.changeColor(Color.BLUE);
+            }
+            else{   // Green Balloon popped
+                this.system.changeColor(Color.GREEN);
+            }
+        }
+
+        this.emitter.fireEvent(HW5_Events.BALLOON_POPPED, {owner: balloon.id});
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND)
     }
 
     /**

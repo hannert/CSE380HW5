@@ -1,8 +1,7 @@
 import StateMachineAI from "../../Wolfie2D/AI/StateMachineAI";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import Debug from "../../Wolfie2D/Debug/Debug";
-import GameNode, { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
-import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
+import GameNode from "../../Wolfie2D/Nodes/GameNode";
 import OrthogonalTilemap from "../../Wolfie2D/Nodes/Tilemaps/OrthogonalTilemap";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
 import { HW5_Color } from "../hw5_color";
@@ -55,7 +54,7 @@ export default class PlayerController extends StateMachineAI {
         this.tilemap = this.owner.getScene().getTilemap(options.tilemap) as OrthogonalTilemap;
 
         this.suitColor = options.color;
-
+        
         this.receiver.subscribe(HW5_Events.SUIT_COLOR_CHANGE);
 
         owner.tweens.add("flip", {
@@ -69,6 +68,25 @@ export default class PlayerController extends StateMachineAI {
                     ease: EaseFunctionType.IN_OUT_QUAD
                 }
             ]
+        });
+        owner.tweens.add("death", {
+            startDelay: 0,
+            duration: 500,
+            effects: [
+                {
+                    property: "rotation",
+                    start: 0,
+                    end: 2*Math.PI,
+                    ease: EaseFunctionType.IN_OUT_QUAD
+                },
+                {
+                    property: "alpha",
+                    start: 1,
+                    end: 0,
+                    ease: EaseFunctionType.IN_OUT_QUAD
+                } 
+            ], 
+            onEnd: HW5_Events.PLAYER_KILLED
         });
 
     }
